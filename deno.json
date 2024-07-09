@@ -31,6 +31,7 @@
     "@trpc/server": "https://esm.sh/@trpc/server@10.32.0",
     "@trpc/server/": "https://esm.sh/@trpc/server@10.32.0/",
     "@trpc/client": "https://esm.sh/@trpc/client@10.32.0",
+    "superjson": "npm:superjson",
     "zod": "npm:zod",
     "drizzle-orm": "npm:drizzle-orm",
     "drizzle-orm/sqlite-core": "npm:drizzle-orm/sqlite-core",

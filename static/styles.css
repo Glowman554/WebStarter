@@ -249,7 +249,19 @@ img {
   max-width: 100%;
 }
 
+.glow-field {
+  width: 50%;
+  background-color: #55555555;
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+
 @media screen and (max-width: 800px) {
+  .glow-field {
+    width: 70%;
+  }
+
   .glow-text {
     margin: auto;
     width: 70%;
@@ -306,6 +318,10 @@ img {
 }
 
 @media screen and (max-width: 600px) {
+  .glow-field {
+    width: 90%;
+  }
+
   .glow-text {
     margin: auto;
     width: 90%;
@@ -335,6 +351,36 @@ img {
   font-size: 16px;
 }
 
+.glow-fancy-input {
+  border: none;
+  border-radius: 7px;
+  width: 100%;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 1rem;
+}
+
+.glow-fancy-button {
+  border: none;
+  border-radius: 7px;
+  padding: .5rem;
+  margin-top: 1rem;
+  background-color: gray;
+}
+
+
 .glow-input {
   width: 90%;
+}
+
+.glow-section {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+}
+
+.glow-center {
+  display: flex;
+  justify-content: center;
 }

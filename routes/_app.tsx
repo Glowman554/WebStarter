@@ -1,6 +1,7 @@
 import { type PageProps } from "$fresh/server.ts";
 import { Footer } from "../components/Footer.tsx";
 import { Header } from "../components/Header.tsx";
+import { ErrorRoot } from "../islands/Error.tsx";
 import { Navigation } from "../islands/Navigation.tsx";
 
 export default function App({ Component }: PageProps) {
@@ -20,7 +21,9 @@ export default function App({ Component }: PageProps) {
                 <div class="glow-content">
                     <Navigation />
                     <Header />
-                    <Component />
+                    <ErrorRoot>
+                        <Component />
+                    </ErrorRoot>
                 </div>
                 <Footer />
             </body>

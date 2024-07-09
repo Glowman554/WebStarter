@@ -7,6 +7,8 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_trpc_path_ from "./routes/api/trpc/[...path].ts";
 import * as $index from "./routes/index.tsx";
+import * as $Account from "./islands/Account.tsx";
+import * as $Error from "./islands/Error.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
 import * as $TrpcPlayground from "./islands/TrpcPlayground.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -20,6 +22,8 @@ const manifest = {
     "./routes/index.tsx": $index,
   },
   islands: {
+    "./islands/Account.tsx": $Account,
+    "./islands/Error.tsx": $Error,
     "./islands/Navigation.tsx": $Navigation,
     "./islands/TrpcPlayground.tsx": $TrpcPlayground,
   },
