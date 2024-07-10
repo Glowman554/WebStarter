@@ -1,9 +1,9 @@
-import { useContext } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 import { trpc } from "../server/trpc/client.ts";
 import { useToken } from "../client/token.ts";
-import { erroring, useInput } from "../client/helper.ts";
-import { ErrorContext } from "./Error.tsx";
+import { useInput, withQuery } from "../client/helper.ts";
+import { Query } from "./Query.tsx";
 
 function Common(
     props: {
@@ -13,98 +13,109 @@ function Common(
 ) {
     const [password, setPassword] = useInput("");
     const [username, setUsername] = useInput("");
-    const token = useToken();
+
+    const { isLoading, error, result: token } = useToken();
 
     return (
-        token
-            ? (
-                <>
-                    <p>Already logged in</p>
-                    <button
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            location.reload();
-                        }}
-                    >
-                        Logout
-                    </button>
-                </>
-            )
-            : (
-                <div class="glow-field">
-                    <div class="glow-section">
-                        Username
-                        <input
-                            class="glow-fancy-input"
-                            onChange={setUsername}
-                            type="text"
-                        />
-                    </div>
-
-                    <div class="glow-section">
-                        Password
-                        <input
-                            class="glow-fancy-input"
-                            onChange={setPassword}
-                            type="password"
-                        />
-                    </div>
-
-                    <div class="glow-center">
+        <Query error={error} isLoading={isLoading}>
+            {token
+                ? (
+                    <>
+                        <p>Already logged in</p>
                         <button
-                            class="glow-fancy-button"
-                            onClick={() =>
-                                props.submitCallback(
-                                    username,
-                                    password,
-                                )}
+                            onClick={() => {
+                                localStorage.removeItem("token");
+                                location.reload();
+                            }}
                         >
-                            {props.submitText}
+                            Logout
                         </button>
+                    </>
+                )
+                : (
+                    <div class="glow-field">
+                        <div class="glow-section">
+                            Username
+                            <input
+                                class="glow-fancy-input"
+                                onChange={setUsername}
+                                type="text"
+                            />
+                        </div>
+
+                        <div class="glow-section">
+                            Password
+                            <input
+                                class="glow-fancy-input"
+                                onChange={setPassword}
+                                type="password"
+                            />
+                        </div>
+
+                        <div class="glow-center">
+                            <button
+                                class="glow-fancy-button"
+                                onClick={() =>
+                                    props.submitCallback(
+                                        username,
+                                        password,
+                                    )}
+                            >
+                                {props.submitText}
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )
+                )}
+        </Query>
     );
 }
 
 export function CreateField() {
-    const setError = useContext(ErrorContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | undefined>(undefined);
 
     const callback = (username: string, password: string) => {
-        erroring(
-            trpc.users.create.mutate({ username, password }).then((token) => {
-                localStorage.setItem("token", token);
-                location.reload();
-            }),
+        withQuery(
+            () => trpc.users.create.mutate({ username, password }),
+            setIsLoading,
             setError,
+            (token) => {
+                localStorage.setItem("token", token);
+            },
         );
     };
 
     return (
-        <Common
-            submitText="Create account"
-            submitCallback={callback}
-        />
+        <Query isLoading={isLoading} error={error}>
+            <Common
+                submitText="Create account"
+                submitCallback={callback}
+            />
+        </Query>
     );
 }
 
 export function LoginField() {
-    const setError = useContext(ErrorContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | undefined>(undefined);
 
     const callback = (username: string, password: string) => {
-        erroring(
-            trpc.users.login.mutate({ username, password }).then((token) => {
-                localStorage.setItem("token", token);
-                location.reload();
-            }),
+        withQuery(
+            () => trpc.users.login.mutate({ username, password }),
+            setIsLoading,
             setError,
+            (token) => {
+                localStorage.setItem("token", token);
+            },
         );
     };
 
     return (
-        <Common
-            submitText="Login"
-            submitCallback={callback}
-        />
+        <Query isLoading={isLoading} error={error}>
+            <Common
+                submitText="Login"
+                submitCallback={callback}
+            />
+        </Query>
     );
 }
