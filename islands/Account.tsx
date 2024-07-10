@@ -19,17 +19,20 @@ function Common(
         <Query q={q}>
             {token
                 ? (
-                    <>
+                    <div class="glow-field">
                         <p>Already logged in</p>
-                        <button
-                            onClick={() => {
-                                localStorage.removeItem("token");
-                                location.reload();
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </>
+                        <div class="glow-center">
+                            <button
+                                class="glow-fancy-button"
+                                onClick={() => {
+                                    localStorage.removeItem("token");
+                                    location.reload();
+                                }}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
                 )
                 : (
                     <div class="glow-field">
