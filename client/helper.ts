@@ -1,6 +1,13 @@
 import { useEffect, useState } from "preact/hooks";
 import { JSX } from "preact";
 
+export interface QueryState {
+    isLoading: boolean;
+    error: undefined | string;
+    setIsLoading: (l: boolean) => void;
+    setError: (err: string | undefined) => void;
+}
+
 export function useInput(
     initial: string,
 ): [
@@ -23,39 +30,39 @@ export function useInput(
 
 export function withQuery<T>(
     f: () => Promise<T>,
-    setIsLoading: (l: boolean) => void,
-    setError: (err: string) => void,
+    q: QueryState,
     c?: (t: T) => void,
 ) {
-    setIsLoading(true);
+    q.setIsLoading(true);
     f()
         .then((t) => {
             if (c) {
                 c(t);
             }
         })
-        .catch((e) => setError(String(e)))
-        .finally(() => setIsLoading(false));
+        .catch((e) => q.setError(String(e)))
+        .finally(() => q.setIsLoading(false));
 }
 
-export function useQuery<T>(
-    f: () => Promise<T>,
-): {
-    isLoading: boolean;
-    error: undefined | string;
-    result: T | undefined;
-
-    setIsLoading: (l: boolean) => void;
-    setError: (err: string) => void;
-} {
-    const [isLoading, setIsLoading] = useState(true);
+export function useQueryState(): QueryState {
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+
+    return {
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+    };
+}
+
+export function useQuery<T>(f: () => Promise<T>, q: QueryState): T | undefined {
     const [result, setResult] = useState<T | undefined>(undefined);
 
     useEffect(() => {
         let valid = true;
 
-        withQuery(f, setIsLoading, setError, (t) => {
+        withQuery(f, q, (t) => {
             if (valid) {
                 setResult(t);
             } else {
@@ -66,5 +73,5 @@ export function useQuery<T>(
         return () => valid = false;
     }, []);
 
-    return { isLoading, error, result, setError, setIsLoading };
+    return result;
 }

@@ -250,7 +250,6 @@ img {
 }
 
 .glow-field {
-  width: 50%;
   background-color: #55555555;
   padding: 1rem;
   border-radius: 16px;
@@ -258,10 +257,6 @@ img {
 
 
 @media screen and (max-width: 800px) {
-  .glow-field {
-    width: 70%;
-  }
-
   .glow-text {
     margin: auto;
     width: 70%;
@@ -318,10 +313,6 @@ img {
 }
 
 @media screen and (max-width: 600px) {
-  .glow-field {
-    width: 90%;
-  }
-
   .glow-text {
     margin: auto;
     width: 90%;
@@ -383,4 +374,20 @@ img {
 .glow-center {
   display: flex;
   justify-content: center;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.glow-spinner {
+  animation-name: spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }

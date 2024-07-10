@@ -1,9 +1,7 @@
-import { useState } from "preact/hooks";
-
 import { trpc } from "../server/trpc/client.ts";
 import { useToken } from "../client/token.ts";
-import { useInput, withQuery } from "../client/helper.ts";
-import { Query } from "./Query.tsx";
+import { useInput, useQueryState, withQuery } from "../client/helper.ts";
+import { Query } from "../components/Query.tsx";
 
 function Common(
     props: {
@@ -14,10 +12,11 @@ function Common(
     const [password, setPassword] = useInput("");
     const [username, setUsername] = useInput("");
 
-    const { isLoading, error, result: token } = useToken();
+    const q = useQueryState();
+    const token = useToken(q);
 
     return (
-        <Query error={error} isLoading={isLoading}>
+        <Query q={q}>
             {token
                 ? (
                     <>
@@ -71,14 +70,12 @@ function Common(
 }
 
 export function CreateField() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const q = useQueryState();
 
     const callback = (username: string, password: string) => {
         withQuery(
             () => trpc.users.create.mutate({ username, password }),
-            setIsLoading,
-            setError,
+            q,
             (token) => {
                 localStorage.setItem("token", token);
             },
@@ -86,7 +83,7 @@ export function CreateField() {
     };
 
     return (
-        <Query isLoading={isLoading} error={error}>
+        <Query q={q}>
             <Common
                 submitText="Create account"
                 submitCallback={callback}
@@ -96,14 +93,12 @@ export function CreateField() {
 }
 
 export function LoginField() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const q = useQueryState();
 
     const callback = (username: string, password: string) => {
         withQuery(
             () => trpc.users.login.mutate({ username, password }),
-            setIsLoading,
-            setError,
+            q,
             (token) => {
                 localStorage.setItem("token", token);
             },
@@ -111,7 +106,7 @@ export function LoginField() {
     };
 
     return (
-        <Query isLoading={isLoading} error={error}>
+        <Query q={q}>
             <Common
                 submitText="Login"
                 submitCallback={callback}

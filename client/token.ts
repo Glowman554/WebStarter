@@ -1,7 +1,7 @@
 import { trpc } from "../server/trpc/client.ts";
-import { useQuery } from "./helper.ts";
+import { QueryState, useQuery } from "./helper.ts";
 
-export function useToken() {
+export function useToken(q: QueryState) {
     const query = useQuery(async () => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -11,7 +11,7 @@ export function useToken() {
             }
         }
         return undefined;
-    });
+    }, q);
 
     return query;
 }

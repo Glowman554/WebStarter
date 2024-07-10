@@ -9,7 +9,6 @@ import * as $api_trpc_path_ from "./routes/api/trpc/[...path].ts";
 import * as $index from "./routes/index.tsx";
 import * as $Account from "./islands/Account.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
-import * as $Query from "./islands/Query.tsx";
 import * as $TrpcPlayground from "./islands/TrpcPlayground.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -24,7 +23,6 @@ const manifest = {
   islands: {
     "./islands/Account.tsx": $Account,
     "./islands/Navigation.tsx": $Navigation,
-    "./islands/Query.tsx": $Query,
     "./islands/TrpcPlayground.tsx": $TrpcPlayground,
   },
   baseUrl: import.meta.url,
