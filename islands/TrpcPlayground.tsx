@@ -6,7 +6,7 @@ import { Query } from "../components/Query.tsx";
 export default function TrpcPlayground() {
     const [greeting, setGreeting] = useState("");
 
-    const q = useQueryState();
+    const q = useQueryState(false);
 
     const fireQuery = () => {
         withQuery(

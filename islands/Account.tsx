@@ -12,7 +12,7 @@ function Common(
     const [password, setPassword] = useInput("");
     const [username, setUsername] = useInput("");
 
-    const q = useQueryState();
+    const q = useQueryState(true);
     const token = useToken(q);
 
     return (
@@ -73,7 +73,7 @@ function Common(
 }
 
 export function CreateField() {
-    const q = useQueryState();
+    const q = useQueryState(false);
 
     const callback = (username: string, password: string) => {
         withQuery(
@@ -96,7 +96,7 @@ export function CreateField() {
 }
 
 export function LoginField() {
-    const q = useQueryState();
+    const q = useQueryState(false);
 
     const callback = (username: string, password: string) => {
         withQuery(

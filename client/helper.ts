@@ -44,8 +44,8 @@ export function withQuery<T>(
         .finally(() => q.setIsLoading(false));
 }
 
-export function useQueryState(): QueryState {
-    const [isLoading, setIsLoading] = useState(false);
+export function useQueryState(initialLoading: boolean): QueryState {
+    const [isLoading, setIsLoading] = useState(initialLoading);
     const [error, setError] = useState<string | undefined>(undefined);
 
     return {
