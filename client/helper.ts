@@ -21,8 +21,7 @@ export function useInput(
     const change = (
         e: JSX.TargetedEvent<HTMLInputElement | HTMLTextAreaElement, Event>,
     ) => {
-        // deno-lint-ignore no-explicit-any
-        setText((e.target as any).value as string);
+        setText(e.currentTarget.value);
     };
 
     return [text, change];
