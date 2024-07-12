@@ -1,10 +1,8 @@
-import { JSX } from "preact";
+import { ComponentChildren } from "preact";
 import { QueryState } from "../client/helper.ts";
 
 export function Query(
-    props:
-        & { q: QueryState }
-        & JSX.ElementChildrenAttribute,
+    props: { q: QueryState; children: ComponentChildren },
 ) {
     return props.q.isLoading
         ? (

@@ -1,15 +1,17 @@
-/// <reference no-default-lib="true" />
-/// <reference lib="dom" />
-/// <reference lib="dom.iterable" />
-/// <reference lib="dom.asynciterable" />
-/// <reference lib="deno.ns" />
-
-import "$std/dotenv/load.ts";
-
-import { start } from "$fresh/server.ts";
-import manifest from "./fresh.gen.ts";
-import config from "./fresh.config.ts";
+import { App, fsRoutes, staticFiles } from "fresh";
+import { type State } from "./utils.ts";
 import { common } from "./common.js";
 
-await common();
-await start(manifest, config);
+export const app = new App<State>();
+app.use(staticFiles());
+
+await fsRoutes(app, {
+    dir: "./",
+    loadIsland: (path) => import(`./islands/${path}`),
+    loadRoute: (path) => import(`./routes/${path}`),
+});
+
+if (import.meta.main) {
+    await common();
+    await app.listen();
+}

@@ -10,7 +10,7 @@ export default function TrpcPlayground() {
 
     const fireQuery = () => {
         withQuery(
-            () => trpc.hello.query("World"),
+            () => trpc.hello.query("world"),
             q,
             setGreeting,
         );

@@ -1,11 +1,9 @@
-import { Head } from "$fresh/runtime.ts";
-
 export default function Error404() {
     return (
         <>
-            <Head>
+            <head>
                 <title>404 - Page not found</title>
-            </Head>
+            </head>
             <div class="glow-text">
                 <h1>404 - Page not found</h1>
                 <p>

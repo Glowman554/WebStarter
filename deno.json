@@ -2,13 +2,12 @@
   "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
-    "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
-    "manifest": "deno task cli manifest $(pwd)",
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
+    "dev": "deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "deploy": "deno task build && deployctl deploy --prod"
+    "start": "deno run -A main.ts",
+    "update": "deno run -A -r jsr:@fresh/update .",
+    "deploy": "deno task build && deployctl deploy --prod",
+    "generate": "deno run -A npm:drizzle-kit generate --dialect sqlite --schema ./server/database/schema.ts"
   },
   "lint": {
     "rules": {
@@ -22,23 +21,32 @@
     "**/_fresh/*"
   ],
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.6.8/",
-    "preact": "https://esm.sh/preact@10.19.6",
-    "preact/": "https://esm.sh/preact@10.19.6/",
-    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
-    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
-    "$std/": "https://deno.land/std@0.216.0/",
-    "@trpc/server": "https://esm.sh/@trpc/server@10.32.0",
-    "@trpc/server/": "https://esm.sh/@trpc/server@10.32.0/",
-    "@trpc/client": "https://esm.sh/@trpc/client@10.32.0",
-    "superjson": "npm:superjson",
-    "zod": "npm:zod",
-    "drizzle-orm": "npm:drizzle-orm",
-    "drizzle-orm/sqlite-core": "npm:drizzle-orm/sqlite-core",
-    "@libsql/client": "npm:@libsql/client"
+    "@libsql/client": "npm:@libsql/client@0.7.0",
+    "@std/dotenv": "jsr:@std/dotenv@^0.224.2",
+    "@trpc/client": "npm:@trpc/client@10.32.0",
+    "@trpc/server": "npm:@trpc/server@10.32.0",
+    "drizzle-orm": "npm:drizzle-orm@0.32.0",
+    "fresh": "jsr:@fresh/core@^2.0.0-alpha.19",
+    "preact": "npm:preact@^10.22.1",
+    "superjson": "npm:superjson@2.2.1",
+    "zod": "npm:zod@3.23.8"
   },
+  "nodeModulesDir": true,
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "lib": [
+      "dom",
+      "dom.asynciterable",
+      "deno.ns"
+    ],
+    "jsx": "precompile",
+    "jsxImportSource": "preact",
+    "jsxPrecompileSkipElements": [
+      "a",
+      "img",
+      "source",
+      "body",
+      "html",
+      "head"
+    ]
   }
 }

@@ -1,6 +1,6 @@
-import { Handlers } from "$fresh/server.ts";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "../../../server/trpc/server.ts";
+import { define } from "../../../utils.ts";
 
 const handle = (req: Request) =>
     fetchRequestHandler({
@@ -10,11 +10,11 @@ const handle = (req: Request) =>
         createContext: () => ({}),
     });
 
-export const handler: Handlers = {
-    GET(req, _ctx) {
-        return handle(req);
+export const handler = define.handlers({
+    GET(req) {
+        return handle(req.req);
     },
-    POST(req, _ctx) {
-        return handle(req);
+    POST(req) {
+        return handle(req.req);
     },
-};
+});

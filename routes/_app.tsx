@@ -1,4 +1,4 @@
-import { type PageProps } from "$fresh/server.ts";
+import { PageProps } from "fresh";
 import { Footer } from "../components/Footer.tsx";
 import { Header } from "../components/Header.tsx";
 import { Navigation } from "../islands/Navigation.tsx";
