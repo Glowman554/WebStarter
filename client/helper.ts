@@ -13,18 +13,39 @@ export function useInput(
 ): [
     string,
     (
-        e: JSX.TargetedEvent<HTMLInputElement | HTMLTextAreaElement, Event>,
+        e: JSX.TargetedEvent<HTMLInputElement, Event>,
     ) => void,
+    (t: string) => void,
 ] {
     const [text, setText] = useState(initial);
 
     const change = (
-        e: JSX.TargetedEvent<HTMLInputElement | HTMLTextAreaElement, Event>,
+        e: JSX.TargetedEvent<HTMLInputElement, Event>,
     ) => {
         setText(e.currentTarget.value);
     };
 
-    return [text, change];
+    return [text, change, setText];
+}
+
+export function useTextarea(
+    initial: string,
+): [
+    string,
+    (
+        e: JSX.TargetedEvent<HTMLTextAreaElement, Event>,
+    ) => void,
+    (t: string) => void,
+] {
+    const [text, setText] = useState(initial);
+
+    const change = (
+        e: JSX.TargetedEvent<HTMLTextAreaElement, Event>,
+    ) => {
+        setText(e.currentTarget.value);
+    };
+
+    return [text, change, setText];
 }
 
 export function withQuery<T>(
