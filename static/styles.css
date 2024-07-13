@@ -1,18 +1,12 @@
 pre {
   background: #636363;
-  border: 1px solid #e7e7e7;
-  border-left: 3px solid #252525;
-  color: #666;
-  page-break-inside: avoid;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  line-height: 1.6;
+  color: #fff;
   margin-bottom: 1.6em;
   max-width: 100%;
   overflow: auto;
-  padding: 1em 1.5em;
+  padding: 1em;
   display: block;
-  word-wrap: break-word
+  word-wrap: break-word;
 }
 
 code {
