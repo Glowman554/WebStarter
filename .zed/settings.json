@@ -1,0 +1,17 @@
+{
+  "deno": { "enable": true },
+  "languages": {
+    "TypeScript": {
+      "language_servers": ["deno"]
+    },
+    "TSX": {
+      "language_servers": ["deno"]
+    }
+  },
+  "formatter": {
+    "external": {
+      "command": "deno",
+      "arguments": ["fmt", "--indent-width", "4", "-"]
+    }
+  }
+}
