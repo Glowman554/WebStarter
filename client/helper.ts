@@ -48,20 +48,61 @@ export function useTextarea(
     return [text, change, setText];
 }
 
+const cache = new Map<string, unknown>();
+const pending = new Map<string, Promise<unknown>>();
+
 export function withQuery<T>(
     f: () => Promise<T>,
     q: QueryState,
     c?: (t: T) => void,
+    key?: string,
 ) {
+    if (key && cache.has(key)) {
+        q.setIsLoading(false);
+        if (c) {
+            c(cache.get(key) as T);
+        }
+        return;
+    }
+
+    if (key && pending.has(key)) {
+        pending.get(key)!
+            .then((result) => {
+                if (c) {
+                    c(result as T);
+                }
+            })
+            .catch((e) => q.setError(String(e)))
+            .finally(() => q.setIsLoading(false));
+        return;
+    }
+
     q.setIsLoading(true);
-    f()
+    const p = f()
         .then((t) => {
+            if (key) {
+                cache.set(key, t);
+            }
+
             if (c) {
                 c(t);
             }
+            return t;
         })
-        .catch((e) => q.setError(String(e)))
-        .finally(() => q.setIsLoading(false));
+        .catch((e) => {
+            q.setError(String(e));
+            throw e;
+        })
+        .finally(() => {
+            q.setIsLoading(false);
+            if (key) {
+                pending.delete(key);
+            }
+        });
+
+    if (key) {
+        pending.set(key, p);
+    }
 }
 
 export function useQueryState(initialLoading: boolean): QueryState {
@@ -76,7 +117,11 @@ export function useQueryState(initialLoading: boolean): QueryState {
     };
 }
 
-export function useQuery<T>(f: () => Promise<T>, q: QueryState): T | undefined {
+export function useQuery<T>(
+    f: () => Promise<T>,
+    q: QueryState,
+    key?: string,
+): T | undefined {
     const [result, setResult] = useState<T | undefined>(undefined);
 
     useEffect(() => {
@@ -88,7 +133,7 @@ export function useQuery<T>(f: () => Promise<T>, q: QueryState): T | undefined {
             } else {
                 console.log("Dropping invalid result: " + t);
             }
-        });
+        }, key);
 
         return () => valid = false;
     }, []);
