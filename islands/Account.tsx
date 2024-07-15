@@ -1,6 +1,11 @@
 import { trpc } from "../server/trpc/client.ts";
 import { useToken } from "../client/token.ts";
-import { useInput, useQueryState, withQuery } from "../client/helper.ts";
+import {
+    clearCache,
+    useInput,
+    useQueryState,
+    withQuery,
+} from "../client/helper.ts";
 import { Query } from "../components/Query.tsx";
 
 function Common(
@@ -81,6 +86,7 @@ export function CreateField() {
             q,
             (token) => {
                 localStorage.setItem("token", token);
+                clearCache();
             },
         );
     };
@@ -104,6 +110,7 @@ export function LoginField() {
             q,
             (token) => {
                 localStorage.setItem("token", token);
+                clearCache();
             },
         );
     };

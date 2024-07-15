@@ -105,6 +105,12 @@ export function withQuery<T>(
     }
 }
 
+export function clearCache() {
+    console.warn("clearCache() called");
+    cache.clear();
+    pending.clear();
+}
+
 export function useQueryState(initialLoading: boolean): QueryState {
     const [isLoading, setIsLoading] = useState(initialLoading);
     const [error, setError] = useState<string | undefined>(undefined);
