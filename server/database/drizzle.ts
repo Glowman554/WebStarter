@@ -1,4 +1,4 @@
-import { createClient } from "@libsql/client/node";
+import { createClient } from "@libsql/client";
 import { drizzle, LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 
