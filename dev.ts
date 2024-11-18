@@ -2,7 +2,7 @@
 
 import { Builder } from "fresh/dev";
 import { app } from "./main.ts";
-import { common } from "./common.js";
+import { common } from "./common.ts";
 
 const builder = new Builder();
 

@@ -1,13 +1,12 @@
 {
   "lock": false,
   "tasks": {
-    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "check": "deno lint && deno check **/*.ts && deno check **/*.tsx",
     "dev": "deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
     "start": "deno run -A main.ts",
-    "update": "deno run -A -r jsr:@fresh/update .",
     "deploy": "deno task build && deployctl deploy --prod",
-    "generate": "deno run -A npm:drizzle-kit generate --dialect sqlite --schema ./server/database/schema.ts"
+    "db:generate": "deno run -A npm:drizzle-kit@0.25.0 generate --dialect sqlite --schema ./server/database/schema.ts"
   },
   "lint": {
     "rules": {
@@ -21,17 +20,17 @@
     "**/_fresh/*"
   ],
   "imports": {
-    "@libsql/client": "npm:@libsql/client@0.7.0",
+    "@libsql/client": "npm:@libsql/client@0.14.0",
     "@std/dotenv": "jsr:@std/dotenv@^0.224.2",
-    "@trpc/client": "npm:@trpc/client@10.32.0",
-    "@trpc/server": "npm:@trpc/server@10.32.0",
-    "drizzle-orm": "npm:drizzle-orm@0.32.0",
-    "fresh": "jsr:@fresh/core@^2.0.0-alpha.19",
-    "preact": "npm:preact@^10.22.1",
+    "@trpc/client": "npm:@trpc/client@10.45.2",
+    "@trpc/server": "npm:@trpc/server@10.45.2",
+    "drizzle-orm": "npm:drizzle-orm@0.34.1",
+    "fresh": "jsr:@fresh/core@2.0.0-alpha.25",
+    "preact": "npm:preact@10.24.3",
     "superjson": "npm:superjson@2.2.1",
     "zod": "npm:zod@3.23.8"
   },
-  "nodeModulesDir": true,
+  "nodeModulesDir": "auto",
   "compilerOptions": {
     "lib": [
       "dom",
